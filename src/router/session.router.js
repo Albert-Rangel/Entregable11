@@ -86,8 +86,6 @@ router.get("/suma", (req, res) => {
 
     res.send(`el resultado de la operacion es ; ${result}`)
   })
-
-
 })
 
 
