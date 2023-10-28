@@ -11,21 +11,21 @@ import ViewsRouter from './router/views.routes.js'
 import SessionRouter from './router/session.router.js'
 import passport from "passport"
 import initiaizePassport from "./config/passport.config.js"
-// import { FileStore } from "session-file-store"
 import MongoStore from "connect-mongo"
 import session from "express-session"
 import mongoose from "mongoose"
-// import { uploader } from './dao/middlewares/multer.js'
-// import socketEvents from "./socket/index.js"
 import cookieParser from "cookie-parser"
-// import { userModel } from "./dao/models/user.model.js"
+import config from "./config/env.config.js"
 
 const productManager = new ProductManager();
 const cartManager = new CartManager();
-const port = 8080
+
 const app = express()
+// const program = new Command();
 // const fileStore = FileStore(session)
 
+const port=config.port;
+console.log(config)
 //Creacion del servidorHTTP
 const HTTPserver = app.listen(port, () =>
   console.log(`Port listening on port ${HTTPserver.address().port}`)
@@ -34,7 +34,7 @@ const HTTPserver = app.listen(port, () =>
 async function connectToMongoose() {
   try {
     //Conectando con Atlas
-    await mongoose.connect('mongodb+srv://albertsleyther:09NbqGe9gecOLTBy@ecommerce.6lrddnh.mongodb.net/?retryWrites=true&w=majority');
+    await mongoose.connect(config.mongourl);
   } catch (error) {
     console.error(`Failed to connect to Mongoose: ${error}`);
   }
@@ -112,10 +112,10 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(session({
-  
+
   store: MongoStore.create({
     mongoUrl: 'mongodb+srv://albertsleyther:09NbqGe9gecOLTBy@ecommerce.6lrddnh.mongodb.net/?retryWrites=true&w=majority',
-    ttl: 20   ,
+    ttl: 20,
   }),
   secret: 'secretCoder',
   resave: false,
@@ -127,11 +127,11 @@ initiaizePassport();
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use('/api' , SessionRouter)
+app.use('/api', SessionRouter)
 app.use('/api/products', ProductRoutes)
 app.use('/api/carts', CartRoutes)
 app.use('/api/chats', ChatsRoutes)
 app.use('/', ViewsRouter)
 
- //socketEvents(Socketserverio)
+//socketEvents(Socketserverio)
 

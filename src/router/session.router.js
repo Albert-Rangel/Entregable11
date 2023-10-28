@@ -4,6 +4,7 @@ import { userModel } from '../dao/models/user.model.js';
 import publicRoutes from "../dao/middlewares/publicRoutes.js"
 import passport from 'passport';
 import privateRoutes from '../dao/middlewares/privateRoutes.js';
+import {fork} from "child_process"
 
 const router = Router();
 
@@ -70,12 +71,25 @@ router.get("/githubcallback",
     res.redirect("/products")
   })
 
-  router.get(
-    '/current', privateRoutes,
-    async (req, res) => {
-      res.send(req.user);
-    }
-  );
+router.get(
+  '/current', privateRoutes,
+  async (req, res) => {
+    res.send(req.user);
+  }
+);
+
+router.get("/suma", (req, res) => {
+  const child= fork("./operacioncompleja.js")
+
+  child.send("hola")
+  child.on("message", (result)=>{
+
+    res.send(`el resultado de la operacion es ; ${result}`)
+  })
+
+
+})
+
 
 
 export default router;
