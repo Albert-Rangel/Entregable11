@@ -1,7 +1,7 @@
 import express, { Router } from "express"
 import { uploader } from '../dao/middlewares/multer.js'
-import ProductManager from '../dao/db/ProductManager.js'
-import CartManager from '../dao/db/CartManager.js'
+import ProductManager from '../controllers/ProductManager.js'
+import CartManager from '../controllers/CartManager.js'
 import publicRoutes from "../dao/middlewares/publicRoutes.js"
 import privateRoutes from "../dao/middlewares/privateRoutes.js"
 

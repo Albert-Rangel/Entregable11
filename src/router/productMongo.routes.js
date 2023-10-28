@@ -1,5 +1,5 @@
 import Router from "express"
-import ProductManager from '../dao/db/ProductManager.js'
+import ProductManager from '../controllers/ProductManager.js'
 const productManager = new ProductManager();
 const ProductRoute = Router();
 
@@ -23,6 +23,21 @@ ProductRoute.get('/', async function (req, res) {
 
     return res.send({ productObject: productObject.docs });
 });
+
+ProductRoute.get('/Npagin/', async function (req, res) {
+   
+    const answer = await productManager.getProducts_()
+    const isString = (value) => typeof value === 'string';
+    if (isString(answer)) {
+        const arrayAnswer = ManageAnswer(answer)
+        return res.status(arrayAnswer[0]).send({
+            status: arrayAnswer[0],
+            message: arrayAnswer[1]
+        })
+    }
+
+    return res.send({ productObject: answer });
+})
 
 ProductRoute.get('/:pid', async function (req, res) {
 
