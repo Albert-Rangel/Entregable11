@@ -19,6 +19,22 @@ CartRoute.get('/byId/:cid', async function (req, res) {
     return res.send(cartObject);
 });
 
+//Obtiene los productos de un carro por su id
+CartRoute.get('/CartProd/:cid', async function (req, res) {
+    const cid = req.params.cid
+    const cartObject = await cartManager.getProductsinCartById(cid);
+    
+    const isString = (value) => typeof value === 'string';
+    if (isString(cartObject)) {
+        const arrayAnswer = ManageAnswer(cartObject)
+        return res.status(arrayAnswer[0]).send({
+            status: arrayAnswer[0],
+            message: arrayAnswer[1]
+        })
+    }
+    return res.send(cartObject);
+});
+
 //obtiene todos los carros
 CartRoute.get('/', async function (req, res) {
     const limit = req.query.limit;

@@ -1,4 +1,4 @@
-import { productsModel } from '../dao/models/products.model.js';
+
 import productsService from '../services/productsService.js';
 const productService = new productsService()
 
