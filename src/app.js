@@ -114,7 +114,7 @@ app.use(cookieParser())
 app.use(session({
 
   store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://albertsleyther:09NbqGe9gecOLTBy@ecommerce.6lrddnh.mongodb.net/?retryWrites=true&w=majority',
+    mongoUrl: config.mongourl,
     ttl: 20,
   }),
   secret: 'secretCoder',
